@@ -111,11 +111,11 @@
   #define INVERT_E0_DIR   true//false//false
   #define INVERT_E1_DIR   true//true
 #else
-  #define INVERT_X_DIR    false
-  #define INVERT_Y_DIR    false
-  #define INVERT_Z_DIR    false
+  #define INVERT_X_DIR    true//false
+  #define INVERT_Y_DIR    true//false
+  #define INVERT_Z_DIR    true//false
 
-  #define INVERT_E0_DIR   true
+  #define INVERT_E0_DIR   false//true
 #endif
 
 /**  Enstops  **/
@@ -129,7 +129,7 @@
 #define Z_HOME_DIR   1
 
 #if BV_REG() || BV(JULIA_2018_RPI_E)
-  #define MANUAL_X_HOME_POS -5//0
+  #define MANUAL_X_HOME_POS -40//-5//0
   #define MANUAL_Y_HOME_POS Y_BED_SIZE 
   #define MANUAL_Z_HOME_POS Z_MAX_POS
 #elif BV_PRO_SINGLE()
@@ -156,7 +156,7 @@
 #if BV_PRO() || BV_PRO_ABL() || BV_PRO_ABL24()
   #define DEFAULT_MAX_FEEDRATE          { 100,  100, 503.937, 140 }//{ 200, 200, 16, 45 }
 #else
-  #define DEFAULT_MAX_FEEDRATE          { 200, 200, 20, 45 }
+  #define DEFAULT_MAX_FEEDRATE          { 100,  100, 503.937, 140 }//{ 200, 200, 20, 45 }
 #endif
 #if BV_PRO() || BV_PRO_ABL()
   #define DEFAULT_MAX_ACCELERATION      { 600, 600, 50, 10000 }
