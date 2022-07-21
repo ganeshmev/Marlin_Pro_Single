@@ -54,11 +54,11 @@
 #if BV_REG()
   #define X_BED_SIZE  200
   #define Y_BED_SIZE  200
-  #define Z_MAX_POS   220//210
+  #define Z_MAX_POS   210
 #elif BV(JULIA_2018_RPI_E)
-  #define X_BED_SIZE  400//250
-  #define Y_BED_SIZE  400//250 // since it was hitting, reduced from 250, very and revert back if needed 
-  #define Z_MAX_POS   400//317//300
+  #define X_BED_SIZE  250
+  #define Y_BED_SIZE  249 // since it was hitting, reduced from 250, very and revert back if needed 
+  #define Z_MAX_POS   300
 #elif BV(JULIA_2018_PRO_SINGLE)
   #define X_BED_SIZE  400
   #define Y_BED_SIZE  400
@@ -68,13 +68,13 @@
   #define Y_BED_SIZE  395
   #define Z_MAX_POS   400
 #elif BV(JULIA_2018_PRO_SINGLE_A) || BV(JULIA_2018_PRO_SINGLE_A24)
-  #define X_BED_SIZE  200//400
-  #define Y_BED_SIZE  200//400
-  #define Z_MAX_POS   220//400
+  #define X_BED_SIZE  400
+  #define Y_BED_SIZE  400
+  #define Z_MAX_POS   400
 #elif BV(JULIA_2018_PRO_DUAL_A) || BV(JULIA_2018_PRO_DUAL_A24)
   #define X_BED_SIZE  395
   #define Y_BED_SIZE  400
-  #define Z_MAX_POS   405//420
+  #define Z_MAX_POS   400//405//420
 #endif
 
 /** Min Pos **/
@@ -104,18 +104,18 @@
 #define E1_DRIVER_TYPE    TMC2208//DRV8825
 
 #if BV_PRO() || BV_PRO_ABL() || BV_PRO_ABL24()
-  #define INVERT_X_DIR    false//false
-  #define INVERT_Y_DIR    false//false
-  #define INVERT_Z_DIR    false//true//true
+  #define INVERT_X_DIR    true//false//false
+  #define INVERT_Y_DIR    true//false//false
+  #define INVERT_Z_DIR    true//true
 
-  #define INVERT_E0_DIR   true//false//false
+  #define INVERT_E0_DIR   false//false
   #define INVERT_E1_DIR   true//true
 #else
-  #define INVERT_X_DIR    true//false
-  #define INVERT_Y_DIR    true//false
-  #define INVERT_Z_DIR    true//false
+  #define INVERT_X_DIR    true//false//false
+  #define INVERT_Y_DIR    true//false//false
+  #define INVERT_Z_DIR    true//true
 
-  #define INVERT_E0_DIR   false//true
+  #define INVERT_E0_DIR   false//false
 #endif
 
 /**  Enstops  **/
@@ -129,11 +129,11 @@
 #define Z_HOME_DIR   1
 
 #if BV_REG() || BV(JULIA_2018_RPI_E)
-  #define MANUAL_X_HOME_POS -40//-5//0
+  #define MANUAL_X_HOME_POS 0
   #define MANUAL_Y_HOME_POS Y_BED_SIZE 
   #define MANUAL_Z_HOME_POS Z_MAX_POS
 #elif BV_PRO_SINGLE()
-  #define MANUAL_X_HOME_POS 0//-20
+  #define MANUAL_X_HOME_POS -20
   #define MANUAL_Y_HOME_POS Y_BED_SIZE
   #define MANUAL_Z_HOME_POS Z_MAX_POS
 #elif BV_PRO_DUAL()
@@ -143,7 +143,7 @@
 #endif
 
 #define HOMING_FEEDRATE_XY  (50*60)
-#define HOMING_FEEDRATE_Z   (20*50)//(20*60)
+#define HOMING_FEEDRATE_Z   (20*60)
 
 /**  Movement  **/
 #define S_CURVE_ACCELERATION
@@ -151,12 +151,12 @@
   //#define DEFAULT_AXIS_STEPS_PER_UNIT   { 200,  200, 1007.874, 280 }  for 1/32 microstep ratio
   #define DEFAULT_AXIS_STEPS_PER_UNIT   { 100,  100, 503.937, 140 }
 #else
-  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 100,  100, 503.937, 140 }//{ 160,  160, 1007.874, 280 }
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 160,  160, 1007.874, 280 }
 #endif
 #if BV_PRO() || BV_PRO_ABL() || BV_PRO_ABL24()
-  #define DEFAULT_MAX_FEEDRATE          { 100,  100, 503.937, 140 }//{ 200, 200, 16, 45 }
+  #define DEFAULT_MAX_FEEDRATE          { 200, 200, 16, 45 }
 #else
-  #define DEFAULT_MAX_FEEDRATE          { 100,  100, 503.937, 140 }//{ 200, 200, 20, 45 }
+  #define DEFAULT_MAX_FEEDRATE          { 200, 200, 20, 45 }
 #endif
 #if BV_PRO() || BV_PRO_ABL()
   #define DEFAULT_MAX_ACCELERATION      { 600, 600, 50, 10000 }
@@ -228,35 +228,33 @@
 
 
 /**  Bed leveling  **/
-#if BV_PRO_ABL() || BV_PRO_ABL24() || BV(JULIA_2018_RPI_E) || BV(JULIA_2018_RPI)   // auto bed leveling
+#if BV_PRO_ABL() || BV_PRO_ABL24()   // auto bed leveling
   #define Z_MIN_PROBE_ENDSTOP
   #define FIX_MOUNTED_PROBE
   #define Z_PROBE_OFFSET_FROM_EXTRUDER 0.2   // Z offset: -below +above  [the nozzle]
 
   #define DELAY_BEFORE_PROBING 1000   // (ms) To prevent vibrations from triggering sensor
 
-  #define MIN_PROBE_EDGE 20
+  #define MIN_PROBE_EDGE 25
   #define Z_PROBE_SPEED_FAST (HOMING_FEEDRATE_Z/10)
   #define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 15)
   #define MULTIPLE_PROBING 2
 
   #define Z_CLEARANCE_DEPLOY_PROBE   5 // Z Clearance for Deploy/Stow
-  #define Z_CLEARANCE_BETWEEN_PROBES  1 // Z Clearance between probe points
+  #define Z_CLEARANCE_BETWEEN_PROBES  3 // Z Clearance between probe points
   #define Z_CLEARANCE_MULTI_PROBE     1 // Z Clearance between multiple probes
 
   #define Z_MIN_PROBE_REPEATABILITY_TEST
 
   #define AUTO_BED_LEVELING_BILINEAR
   #define DEBUG_LEVELING_FEATURE
-
-
-// mesh bed leveling
-  //#define MESH_BED_LEVELING
-  //#if BV(JULIA_2018_RPI_E) || BV_PRO()
-    //#define GRID_MAX_POINTS_X 3
-  //#else
-    //#define GRID_MAX_POINTS_X 3
-  //#endif
+#else   // mesh bed leveling
+  #define MESH_BED_LEVELING
+  #if BV(JULIA_2018_RPI_E) || BV_PRO()
+    #define GRID_MAX_POINTS_X 3
+  #else
+    #define GRID_MAX_POINTS_X 3
+  #endif
   #if BV_NPI()
     #define LCD_BED_LEVELING
   #endif
